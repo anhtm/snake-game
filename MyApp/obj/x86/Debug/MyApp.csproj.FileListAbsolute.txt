@@ -1,0 +1,5 @@
+/home/anhtm/Projects/MyApp/MyApp/bin/Debug/MyApp.exe
+/home/anhtm/Projects/MyApp/MyApp/bin/Debug/MyApp.pdb
+/home/anhtm/Projects/MyApp/MyApp/obj/x86/Debug/MyApp.csproj.CoreCompileInputs.cache
+/home/anhtm/Projects/MyApp/MyApp/obj/x86/Debug/MyApp.exe
+/home/anhtm/Projects/MyApp/MyApp/obj/x86/Debug/MyApp.pdb

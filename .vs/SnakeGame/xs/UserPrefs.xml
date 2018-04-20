@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{ED7F0580-FB2F-42BB-90F0-AB3BC7CD87DC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MyApp/MyCanvas.cs">
+    <Files>
+      <File FileName="MyApp/MyCanvas.cs" Line="78" Column="41" />
+      <File FileName="MyApp/Dot.cs" Line="5" Column="1" />
+      <File FileName="MyApp/Snake.cs" Line="3" Column="1" />
+      <File FileName="MyApp/Program.cs" Line="3" Column="12" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.SnakeGame PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
