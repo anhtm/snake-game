@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Timers;
 namespace MyApp
 {
     public enum Directions
@@ -21,8 +21,8 @@ namespace MyApp
     public class MyCanvas : Form
     {
         // No properties.
-        int maxHeight = 0;
-        int maxWidth = 0;
+        int maxHeight;
+        int maxWidth;
         int dotWidth = 10;
         int bodyElements = 3;
         int snakeSpeed = 1;
@@ -34,27 +34,66 @@ namespace MyApp
         {
             // Default constructor
             // height = 273
-            int maxPosY = this.ClientSize.Height / dotWidth;
+
+            maxHeight = this.ClientSize.Height / dotWidth;
             // width = 292
-            int maxPosX = this.ClientSize.Width / dotWidth;
+            maxWidth = this.ClientSize.Width / dotWidth;
             //InitializeComponent();
-            this.KeyPreview = true;
-            this.createSnake();
-            this.createBerry();
-            //timer1.Interval = 5000 / snakeSpeed;
+            //this.KeyPreview = true;
+            this.CreateSnake();
+            this.CreateBerry();
+            // Create a timer and set a two second interval.
+            System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
+            timer1.Interval = 5000 / snakeSpeed;
             //timer1.Tick += UpdateGameSession();
-            //timer1.Start();
+            timer1.Start();
 
         }
 
-        private void createSnake() {
+        // Draw the initial snake
+        private void CreateSnake() {
             Point p = new Point(100,100);
             snakeHead = new Dot(p, Color.Azure, dotWidth);
             snake = new Snake();
             snake.Body.Add(snakeHead);
+            Directions snakeDirection = snake.Direction;
+            for (int i = 1; i < bodyElements; i++)
+            {
+                int x;
+                int y;
+                if (snakeDirection == Directions.Up)
+                {
+                    // keep x as it is
+                    x = p.X;
+                    // y set into a verticle line; downward
+                    y = (p.Y + i * dotWidth);
+                }
+                else if (snakeDirection == Directions.Down)
+                {
+                    // keep x as it is
+                    x = p.X;
+                    // y set into a verticle line; upward
+                    y = (p.Y - i * dotWidth);
+                }
+                else if (snakeDirection == Directions.Left)
+                {
+                    x = p.X + i * dotWidth;
+                    y = p.Y;
+                }
+                else
+                {
+                    x = p.X - i * dotWidth;
+                    y = p.Y;
+                }
+
+                Point bodyPoint = new Point(x, y);
+                Dot dot = new Dot(bodyPoint, Color.Black, dotWidth);
+
+                snake.Body.Add(dot);
+            }
         }
 
-        private void createBerry() {
+        private void CreateBerry() {
             Random rnd = new Random();
             int randomX = rnd.Next(10, 100);
             int randomY = rnd.Next(10, 100);
@@ -62,23 +101,26 @@ namespace MyApp
             berry = new Dot(randomPoint, Color.HotPink, dotWidth);
         }
 
+        private void UpdateGameSession() {
+            
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            // Draw snake
+            // Draw snake head
             SolidBrush headBrush = new SolidBrush(snakeHead.Color);
             Rectangle headSquare = new Rectangle(snakeHead.Location.X,
                                                   snakeHead.Location.Y,
                                                   dotWidth,
                                                   dotWidth);
-            for (int i = 1; i <= bodyElements; i++) {
-                Rectangle snakeBody = new Rectangle(snakeHead.Location.X - i * dotWidth,
-                                                    snakeHead.Location.Y - i * dotWidth,
-                                                   dotWidth,
-                                                    dotWidth);
-                e.Graphics.FillRectangle(headBrush, headSquare);
-            }
-
             e.Graphics.FillRectangle(headBrush, headSquare);
+
+            // Draw snake body
+            foreach (var item in snake.Body)
+            {
+                SolidBrush blackBrush = new SolidBrush(item.Color);
+                e.Graphics.FillRectangle(blackBrush, item.Location.X, item.Location.Y, item.Width, item.Width);
+            }
 
             // Draw berry
             SolidBrush berryBrush = new SolidBrush(berry.Color);
