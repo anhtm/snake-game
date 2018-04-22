@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{ED7F0580-FB2F-42BB-90F0-AB3BC7CD87DC}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="MyApp/MyCanvas.cs">
     <Files>
-      <File FileName="MyApp/MyCanvas.cs" Line="78" Column="41" />
+      <File FileName="MyApp/MyCanvas.cs" Line="71" Column="23" />
       <File FileName="MyApp/Dot.cs" Line="5" Column="1" />
-      <File FileName="MyApp/Snake.cs" Line="3" Column="1" />
-      <File FileName="MyApp/Program.cs" Line="3" Column="12" />
+      <File FileName="MyApp/Program.cs" Line="14" Column="66" />
+      <File FileName="MyApp/MyCanvas.Designer.cs" Line="43" Column="58" />
+      <File FileName="MyApp/Snake.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
