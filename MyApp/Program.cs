@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyApp;
 
 namespace MyApp
 {
@@ -8,7 +10,8 @@ namespace MyApp
     {
         public static void Main(string[] args)
         {
-            // In the main function
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MyCanvas());
         }
     }
