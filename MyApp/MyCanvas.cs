@@ -19,16 +19,17 @@ namespace MyApp
 
     public partial class MyCanvas : Form
     {
-        int maxHeight;
-        int maxWidth;
-        int dotWidth = 20;
-        int bodyElements;
-        int snakeSpeed;
+        Snake snake;
         Dot snakeHead;
         Dot berry;
-        Snake snake;
-        int score;
-        int highScore = 0;
+        public int maxHeight;
+        public int maxWidth;
+        public int dotWidth = 20;
+        public int bodyElements;
+        public int snakeSpeed;
+        public int score;
+        public int highScore = 0;
+        public bool gameOver = false;
 
         public MyCanvas()
         {
@@ -49,7 +50,7 @@ namespace MyApp
 
         // Reset game to initial state
         private void StartNewGame() {
-            snakeSpeed = 3;
+            snakeSpeed = 5;
             score = 0;
             bodyElements = 5;
             CreateSnake();
@@ -184,7 +185,7 @@ namespace MyApp
 
             // Update labels from each interval
             label1.Text = "Score: " + score;
-            label2.Text = "Level: " + (snakeSpeed - 2);
+            label2.Text = "Level: " + (snakeSpeed - 4);
             label3.Text = "High Score: " + highScore;
         }
 
@@ -243,7 +244,7 @@ namespace MyApp
             }
             // Set speed back to initial state
             if (score == 0) {
-                snakeSpeed = 3;
+                snakeSpeed = 5;
                 timer.Interval = 1000 / snakeSpeed;
                 timer2.Interval = 1000 / snakeSpeed;
             }
