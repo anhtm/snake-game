@@ -12,7 +12,6 @@ namespace MyApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // In the main function
             Application.Run(new MyCanvas());
         }
     }

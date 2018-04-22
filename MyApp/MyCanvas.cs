@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace MyApp
 {
@@ -23,26 +22,23 @@ namespace MyApp
         int maxHeight;
         int maxWidth;
         int dotWidth = 20;
-        int bodyElements = 5;
-        int snakeSpeed = 3;
+        int bodyElements;
+        int snakeSpeed;
         Dot snakeHead;
         Dot berry;
         Snake snake;
-        int score = 0;
-        //bool gameOver = false;
+        int score;
+        int highScore = 0;
 
         public MyCanvas()
         {
-            
             InitializeComponent();
-            // height = 600
-            maxHeight = this.ClientSize.Height;
-            // width = 700
-            maxWidth = this.ClientSize.Width;
+            maxHeight = this.ClientSize.Height; // height = 600
+            maxWidth = this.ClientSize.Width; // width = 700
             this.KeyPreview = true;
-            CreateSnake();
-            CreateBerry();
-            // Create a timer and set a two second interval.
+            StartNewGame();
+
+            // Create 2 timers to update snake & update game status
             timer.Interval = 1000 / snakeSpeed;
             timer.Tick += this.UpdateGameSession;
             timer.Start();
@@ -51,6 +47,7 @@ namespace MyApp
             timer2.Start();
         }
 
+        // Reset game to initial state
         private void StartNewGame() {
             snakeSpeed = 3;
             score = 0;
@@ -59,7 +56,7 @@ namespace MyApp
             CreateBerry();
         }
 
-        // Draw the initial snake
+        // Create snake head and snake body elements
         private void CreateSnake() {
             Point p = new Point(100, 100);
             snakeHead = new Dot(p, Color.Brown, dotWidth);
@@ -73,16 +70,12 @@ namespace MyApp
                 int y;
                 if (snakeDirection == Directions.Up)
                 {
-                    // keep x as it is
                     x = p.X;
-                    // y set into a verticle line; downward
                     y = (p.Y + i * dotWidth);
                 }
                 else if (snakeDirection == Directions.Down)
                 {
-                    // keep x as it is
                     x = p.X;
-                    // y set into a verticle line; upward
                     y = (p.Y - i * dotWidth);
                 }
                 else if (snakeDirection == Directions.Left)
@@ -111,16 +104,12 @@ namespace MyApp
             int y;
             if (snakeDirection == Directions.Up)
             {
-                // keep x as it is
                 x = p.X;
-                // y set into a verticle line; downward
                 y = (p.Y + index * dotWidth);
             }
             else if (snakeDirection == Directions.Down)
             {
-                // keep x as it is
                 x = p.X;
-                // y set into a verticle line; upward
                 y = (p.Y - index * dotWidth);
             }
             else if (snakeDirection == Directions.Left)
@@ -136,15 +125,14 @@ namespace MyApp
 
             Point bodyPoint = new Point(x, y);
             Dot dot = new Dot(bodyPoint, Color.Black, dotWidth);
-
             snake.Body.Add(dot);
         }
 
         // Create berry randomly
         private void CreateBerry() {
             Random rnd = new Random();
-            int randomX = rnd.Next(0, maxWidth / 20) * 20;
-            int randomY = rnd.Next(0, maxHeight / 20) * 20;
+            int randomX = rnd.Next(3, maxWidth / 20) * 20;
+            int randomY = rnd.Next(3, maxHeight / 20) * 20;
             Point randomPoint = new Point(randomX, randomY);
             berry = new Dot(randomPoint, Color.HotPink, dotWidth);
         }
@@ -153,11 +141,10 @@ namespace MyApp
         {
             //Update snake Direction
             UpdateSnakeHeading(snake.Direction);
-            //Refresh the screen to redraw snake
             this.Refresh();
         }
 
-        //Update snake heading recalculate teh position of the head based on the heading
+        //Recalculate the position of the head based on the heading
         private void UpdateSnakeHeading(Directions d)
         {
             Point newPoint;
@@ -195,9 +182,10 @@ namespace MyApp
                 snake.Body[0].Location = newPoint;
             }
 
-            // Update label during each interval
+            // Update labels from each interval
             label1.Text = "Score: " + score;
-            label2.Text = "Speed: " + (snakeSpeed - 2);
+            label2.Text = "Level: " + (snakeSpeed - 2);
+            label3.Text = "High Score: " + highScore;
         }
 
         // Update score, speed, bodyElements and Canvas regarding the status
@@ -205,42 +193,55 @@ namespace MyApp
             int headX = snake.Body[0].Location.X;
             int headY = snake.Body[0].Location.Y;
 
-            // check if snake has eaten a berry
+            // 1. Check if snake has eaten a berry
+            // Compare head's coordinates with berry's coordinates
             if (headX == berry.Location.X && headY == berry.Location.Y) {
                 score += 10;
+                CheckHighScore();
                 TrackSpeed();
                 bodyElements++;
-                CreateBerry();
                 AddBodyPart(bodyElements - 1);
+                CreateBerry();
                 this.Refresh();
             }
 
-            // check if snake has biten itself
+            // 2. Check if snake has biten its body
+            // Compare head's coordinates with each body part's coordinates
             for (int i = 1; i < snake.Body.Count; i++) {
                 if (headX == snake.Body[i].Location.X && headY == snake.Body[i].Location.Y) {
+                    CheckHighScore();
                     StartNewGame();
                     TrackSpeed();
                     this.Refresh();
                 }
             }
 
-            // check if snake has hit the wall
+            // 3. Check if snake has hit the wall
+            // Compare head's coordinates with the wall's coordinates 
             if (headX > maxWidth || headY > maxHeight || headX < 0 || headY < 0) {
+                CheckHighScore();
                 StartNewGame();
                 TrackSpeed();
                 this.Refresh();
             }
         }
 
+        private void CheckHighScore() {
+            if (highScore == 0 || highScore < score) {
+                highScore = score;
+            }
+        }
+
         // Keep track of speed regarding the score
         private void TrackSpeed() {
-            // increase snakeSpeed every 3 points
+            // Increase speed every 30 points
             if (score % 30 == 0 && score != 0)
             {
                 snakeSpeed++;
                 timer.Interval = 1000 / snakeSpeed;
                 timer2.Interval = 1000 / snakeSpeed;
             }
+            // Set speed back to initial state
             if (score == 0) {
                 snakeSpeed = 3;
                 timer.Interval = 1000 / snakeSpeed;
