@@ -40,6 +40,7 @@
     <Compile Include="Dot.cs" />
     <Compile Include="Snake.cs" />
     <Compile Include="MyCanvas.Designer.cs" />
+    <Compile Include="Config.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
